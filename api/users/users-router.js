@@ -25,7 +25,7 @@ const md = require('../auth/auth-middleware');
   }
  */
 
-  router.get('/', async (req, res, next) => {
+  router.get('/', md.restricted, async (req, res, next) => {
     try {
       const users = await User.find();
       res.json(users);
