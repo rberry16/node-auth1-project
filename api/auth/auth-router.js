@@ -53,7 +53,19 @@ const bcrypt = require('bcryptjs');
     "message": "Invalid credentials"
   }
  */
-router.get
+router.post('/login', md.checkUsernameExists, async (req, res, next) => {
+  try {
+    const {password} = req.body;
+    if (bcrypt.compareSync(password, req.user.password)) {
+      req.session.user = req.user;
+      res.json({message: `welcome ${req.body.username}!`});
+    } else {
+      res.status(401).json({message: 'Invalid credentils'});
+    }
+  } catch (err) {
+    next(err);
+  }
+})
 
 /**
   3 [GET] /api/auth/logout

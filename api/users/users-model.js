@@ -41,9 +41,9 @@ if (!user || user === undefined) {
   return null;
 } else {
   return {
-    user_id: user.user_id,
-    username: user.username
-  }; 
+  user_id: user.user_id,
+  username: user.username
+}; 
 }
 }
 

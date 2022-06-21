@@ -1,4 +1,5 @@
 const User = require('../users/users-model');
+const db = require('../../data/db-config');
 
 /*
   If the user does not have a session saved in the server
@@ -8,8 +9,12 @@ const User = require('../users/users-model');
     "message": "You shall not pass!"
   }
 */
-function restricted() {
-
+function restricted(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.status(401).json({message: 'You shall not pass!'});
+  }
 }
 
 /*
@@ -47,6 +52,8 @@ async function checkUsernameExists(req, res, next) {
     if (!existing) {
       res.status(401).json({message: 'Invalid credentials'});
     } else {
+      const user = await db('users').where({username: req.body.username}).first();
+      req.user = user;
       next();
     }
   } catch (err) {
