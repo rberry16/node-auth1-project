@@ -51,6 +51,15 @@ const User = require('./users-model');
     }
   });
 
+  router.get('/by', async (req, res, next) => {
+    try {
+      const user = await User.findBy({username: 'bob'})
+      res.json(user);
+    } catch (err) {
+      next(err);
+    }
+  })
+
 
 // Don't forget to add the router to the `exports` object so it can be required in other modules
 module.exports = router;

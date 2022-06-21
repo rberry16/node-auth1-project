@@ -22,10 +22,14 @@ async function find() {
  */
 async function findBy(filter) {
   const user = await db('users').where(filter).first();
-  return {
-    user_id: user.user_id,
-    username: user.username
-  };
+  if (!user || user === undefined) {
+    return null;
+  } else {
+    return {
+      user_id: user.user_id,
+      username: user.username
+    };
+  }
 }
 
 /**
@@ -33,10 +37,14 @@ async function findBy(filter) {
  */
 async function findById(user_id) {
 const user = await db('users').where('user_id', user_id).first();
-return {
-  user_id: user.user_id,
-  username: user.username
-}; 
+if (!user || user === undefined) {
+  return null;
+} else {
+  return {
+    user_id: user.user_id,
+    username: user.username
+  }; 
+}
 }
 
 /**
